@@ -1,0 +1,17 @@
+{% load static %}
+<html>
+<head><title>show details page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'register/style.css' %}"/>
+</head>
+<body>
+{% if data %}
+    {% for each_data_item in data %}
+    <ol>
+    <li>fname:{{each_data_item.lname}}</li>
+    <li>lname:{{each_data_item.fname}}</li>
+    <li>dob:{{each_data_item.dob}}</li>
+    </ol>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

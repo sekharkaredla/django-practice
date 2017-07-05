@@ -1,0 +1,15 @@
+{% load static %}
+<html>
+<head>
+    <title>REGISTER PAGE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'register/style.css' %}" />
+</head>
+<body>
+<form method="post" action="send_data">
+    FIRSTNAME:<input type="text" name="fname"/><br/>
+    LASTNAME:<input type="text" name="lname"/><br/>
+    DOB:<input type="date" name="dob"/><br/>
+    <input type="submit" name="submit"/>
+</form>
+</body>
+</html>

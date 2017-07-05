@@ -1,0 +1,13 @@
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'loginreg/style.css' %}"/>
+</head>
+<body>
+<form method="post" action="send_data">
+    Roll Number:<input type="text" name="roll"/><br/>
+    Password:<input type="password" name="pass"/><br/>
+    <input type="submit" name="submit"/>
+</form>
+</body>
+</html>
