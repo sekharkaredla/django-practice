@@ -73,9 +73,9 @@ WSGI_APPLICATION = 'resource_allocation.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'testdb',
-        'USER':'root',
+        'USER':'sekhar',
         'PASSWORD':'pandu123',
         'HOST':'localhost',
         'PORT':''
