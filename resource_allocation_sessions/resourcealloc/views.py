@@ -36,19 +36,22 @@ def get_resources_for_user():
         context.append(context_dict)
     return context
 
+
 class Index(View):
     def get(self, request):
         user = request.session.get('user', '')
         if user == '':
             return render(request, 'resourcealloc/index.html')
         else:
-            context = get_resources_for_user()
-            return render(request, 'resourcealloc/user.html', {'resources': context})
-
+            if not request.session['admin']:
+                context = get_resources_for_user()
+                return render(request, 'resourcealloc/user.html', {'resources': context})
+            else:
+                context = get_requests_of_users()
+                return render(request, 'resourcealloc/admin.html', {'requests': context})
 
 
 class LoginCheck(View):
-
     def post(self, request):
         user = request.POST.get('name')
         password = request.POST.get('pass')
@@ -59,20 +62,15 @@ class LoginCheck(View):
         if user == credentials.username and password == credentials.password:
             request.session['user'] = user
             if credentials.is_admin:
+                request.session['admin'] = True
                 context = get_requests_of_users()
                 return render(request, 'resourcealloc/admin.html', {'requests': context})
             else:
+                request.session['admin'] = False
                 context = get_resources_for_user()
                 return render(request, 'resourcealloc/user.html', {'resources': context})
         else:
             return redirect('/resourcealloc')
-    # def get(self,request):
-    #     user=request.session.get('user','')
-    #     if user == '':
-    #         return redirect('/resourcealloc')
-    #     else:
-    #         context = self.get_resources_for_user()
-    #         return render(request, 'resourcealloc/user.html', {'resources': context})
 
 
 class Register(View):
@@ -102,10 +100,17 @@ class RandomRequest(View):
             return redirect('/resourcealloc')
         resource = Resource.objects.get(res_num=1)
         thirty_days = datetime.timedelta(days=30)
-        credential=Credential.objects.get(username=user)
+        credential = Credential.objects.get(username=user)
         Request.objects.create(
             user=credential,
             resource=resource,
             date=datetime.date.today() + thirty_days
         )
         return render(request, 'resourcealloc/success.html')
+
+
+class Logout(View):
+    def get(self, request):
+        del request.session['user']
+        del request.session['admin']
+        return redirect('/resourcealloc')
