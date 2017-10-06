@@ -1,0 +1,17 @@
+<html>
+<head>
+<body>
+{% for each_post in posts%}
+<img src="{{each_post.image.url}}"/><br>
+{{each_post.caption}}<br>
+{{each_post.likes}}<br>
+{{each_post.owner}}<br>
+<form method="post" action="liked">
+    {% csrf_token %}
+    <input type="hidden" name = "id" value = "{{each_post.id}}"/>
+    <input type="submit"  value="like"/><br/>
+</form>
+{% endfor %}
+</body>
+</head>
+</html>
